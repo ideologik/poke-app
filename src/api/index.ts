@@ -9,7 +9,6 @@ const pokemonApi: PokemonAPI = {
   // devuelve un array de strings con los tipos de pokemon
   getPokemonTypes: async (): Promise<PokemonTypes> => {
     const allTypes: any = await fetchAllTypes("https://pokeapi.co/api/v2/type");
-    console.log("allTypes", allTypes);
     return allTypes.results.map((type: any) => type.name);
   },
   // devuelve un array de objetos con los pokemons del tipo especificado
@@ -17,11 +16,18 @@ const pokemonApi: PokemonAPI = {
     const response: any = await axios.get(
       `https://pokeapi.co/api/v2/type/${type}`
     );
-    console.log("data!", response.data);
-    const pokemons: Pokemon[] = response.data.pokemon.map((item: any) => ({
-      name: item.pokemon.name,
-      url: item.pokemon.url,
-    }));
+
+    const pokemons: Pokemon[] = await Promise.all(
+      response.data.pokemon.map(async (item: any) => {
+        const pokemonDetail: any = await axios.get(item.pokemon.url);
+        return {
+          name: item.pokemon.name,
+          url: item.pokemon.url,
+          image: pokemonDetail.data.sprites.front_default,
+          imageShiny: pokemonDetail.data.sprites.front_shiny,
+        };
+      })
+    );
 
     return pokemons;
   },
@@ -32,7 +38,6 @@ async function fetchAllTypes(
   accumulatedResults: any[] = []
 ): Promise<any> {
   const { data }: AxiosResponse<any> = await axios.get(url);
-  console.log("data", data);
   // Acumula los resultados
   const allResults = [...accumulatedResults, ...data.results];
 
