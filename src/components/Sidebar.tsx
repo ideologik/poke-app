@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { usePokemonStore } from "../stores/pokemon/pokemonStore";
 import {
   loadAndSetPokemonTypes,
   selectPokemonType,
 } from "../stores/pokemon/pokemonActions";
+interface SidebarProps {
+  closeSidebar?: () => void; // La función es opcional
+}
 
-const Sidebar = () => {
+const Sidebar: FC<SidebarProps> = ({ closeSidebar }) => {
   console.log("render Sidebar");
   // Si se usa así cualquier cambio que se produzca en el store
   // hará que se vuelva a renderizar el componente. No solo cuando
@@ -22,6 +25,9 @@ const Sidebar = () => {
 
   const handleChangeType = (type: string) => {
     selectPokemonType(type);
+    if (closeSidebar) {
+      closeSidebar();
+    }
   };
 
   return (

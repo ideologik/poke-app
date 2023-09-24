@@ -16,7 +16,11 @@ const MobileSidebar = () => {
           <div className="bg-white w-6 h-0.5"></div>
         </div>
       </button>
-      {isOpen && <Sidebar />}
+      {isOpen && (
+        <div className="fixed top-0 left-0 w-[80vw] h-full overflow-y-auto z-10 bg-white">
+          <Sidebar closeSidebar={() => setIsOpen(false)} />
+        </div>
+      )}
     </div>
   );
 };
