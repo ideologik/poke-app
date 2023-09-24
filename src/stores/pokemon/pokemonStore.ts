@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { Pokemon, PokemonTypes } from "../../types";
+import { Pokemon, PokemonType } from "../../types";
 
 type State = {
-  pokemonTypes: PokemonTypes;
+  pokemonTypes: PokemonType[];
   selectedType: string | null;
   pokemons: Pokemon[];
   loading: boolean;
@@ -10,7 +10,7 @@ type State = {
 };
 
 type Actions = {
-  setPokemonTypes: (pokemonTypes: PokemonTypes) => void;
+  setPokemonTypes: (pokemonTypes: PokemonType[]) => void;
   setSelectedType: (selectedType: string) => void;
   setPokemons: (pokemons: Pokemon[]) => void;
   setLoading: (loading: boolean) => void;

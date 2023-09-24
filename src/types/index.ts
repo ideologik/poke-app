@@ -1,4 +1,4 @@
-export type PokemonTypes = string[];
+export type PokemonType = string;
 
 export type Pokemon = {
   name: string;

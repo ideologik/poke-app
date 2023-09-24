@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Pokemon, PokemonTypes } from "../types";
+import { Pokemon, PokemonType } from "../types";
 interface PokemonAPI {
   getPokemonTypes: () => Promise<any>;
   getPokemonsByType: (type: string) => Promise<any>;
@@ -7,7 +7,7 @@ interface PokemonAPI {
 
 const pokemonApi: PokemonAPI = {
   // devuelve un array de strings con los tipos de pokemon
-  getPokemonTypes: async (): Promise<PokemonTypes> => {
+  getPokemonTypes: async (): Promise<PokemonType> => {
     const allTypes: any = await fetchAllTypes("https://pokeapi.co/api/v2/type");
     return allTypes.results.map((type: any) => type.name);
   },
